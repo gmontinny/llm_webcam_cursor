@@ -6,39 +6,28 @@ import sys
 
 import av
 import cv2
+from pygrabber.dshow_graph import FilterGraph
 
 
-def list_dshow_devices() -> list[str]:
-    """Lista dispositivos de video disponiveis via DirectShow."""
-    devices = []
-    try:
-        container = av.open("list", format="dshow", options={"list_devices": "true"})
-        container.close()
-    except av.AVError as e:
-        # FFmpeg imprime a lista no stderr mesmo com erro — capturamos o que temos
-        for line in str(e).splitlines():
-            if "video" in line.lower() and "@device" in line.lower():
-                devices.append(line.strip())
-    return devices
+def _device_name(index: int) -> str:
+    devices = FilterGraph().get_input_devices()
+    if not devices or index >= len(devices):
+        raise RuntimeError(f"Camera {index} nao encontrada.")
+    return devices[index]
 
 
 def main(camera_index: int = 0) -> None:
-    # No Windows, PyAV/FFmpeg requer o nome do dispositivo DirectShow
-    # Tenta abrir pelo indice usando o formato "video=<index>"
-    device_name = f"video={camera_index}"
-
-    print(f"Tentando abrir: {device_name} via FFmpeg/DirectShow...")
+    name = _device_name(camera_index)
+    print(f"Usando: {name}")
 
     try:
         container = av.open(
-            device_name,
+            f"video={name}",
             format="dshow",
             options={"video_size": "640x480", "framerate": "30"},
         )
     except av.AVError as e:
         print(f"Erro ao abrir camera: {e}")
-        print("Dica: use o nome exato do dispositivo, ex: 'video=Integrated Camera'")
-        print("Execute list_camera.py para ver os dispositivos disponiveis.")
         sys.exit(1)
 
     stream = container.streams.video[0]
