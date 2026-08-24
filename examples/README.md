@@ -38,7 +38,7 @@ Pressione **ESC** para encerrar qualquer exemplo.
 | `example_pygrabber.py` | pygrabber | DirectShow COM | callback | ✅ nativo | media |
 | `example_pyav.py` | av (PyAV) | FFmpeg/dshow | nao | ✅ via FFmpeg | alta |
 | `example_vidgear.py` | vidgear | OpenCV interno | embutido | ✅ | baixa |
-| `example_imageio.py` | imageio-ffmpeg | FFmpeg | nao | ⚠️ parcial | media |
+| `example_imageio.py` | imageio-ffmpeg | FFmpeg | nao | ❌ nao suportado | media |
 
 ---
 
@@ -184,11 +184,8 @@ Documentacao imageio-ffmpeg: https://github.com/imageio/imageio-ffmpeg
 - Leve para projetos que ja usam imageio para outras finalidades
 
 **Desvantagens:**
-- Suporte a webcam no Windows e parcial — depende do FFmpeg instalado no PATH do sistema
-- A sintaxe `<video0>` funciona bem no Linux/macOS mas tem limitacoes no Windows
-- Sem threading embutido — iterador e sincrono e pode causar bloqueio no loop principal
-- Latencia maior que OpenCV para captura ao vivo
-- Menos controle sobre propriedades da camera (resolucao, FPS)
+- Nao suporta captura de webcam no Windows — o URI `video=<nome>` e interpretado como caminho de arquivo local
+- No Windows, use `example_pyav.py` que tem suporte completo via dshow
 
 **Quando usar:**
 - Projetos multiplataforma onde Linux/macOS e o ambiente principal
