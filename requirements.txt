@@ -1,0 +1,17 @@
+# Testado e validado com Python 3.12.9 (Windows 11)
+# mediapipe 1.0.1 suporta numpy 2.x nesta versao
+
+# --- core ---
+mediapipe>=1.0.1
+numpy>=2.0
+opencv-python>=5.0.0
+pynput>=1.8.0
+setuptools>=70.0
+pyinstaller>=6.0
+
+# --- exemplos alternativos de captura (examples/) ---
+pygrabber>=0.2          # DirectShow nativo via COM (Windows)
+av>=11.0                # PyAV — FFmpeg bindings
+vidgear>=0.3.0          # CamGear com threading embutido
+imageio>=2.30.0         # captura via FFmpeg
+imageio-ffmpeg>=0.4.9   # backend FFmpeg para imageio
